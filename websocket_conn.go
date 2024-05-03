@@ -18,10 +18,10 @@ func registerWebsocketConnType(L *lua.LState) {
 }
 
 var websocketConnMethods = map[string]lua.LGFunction{
-	"read":         read,
-	"write_string": writeString,
-	"ping":         ping,
-	"close":        closeConn,
+	"read":       read,
+	"write_text": writeText,
+	"ping":       ping,
+	"close":      closeConn,
 }
 
 func checkWebsocketConn(L *lua.LState) *websocket.Conn {
@@ -46,7 +46,7 @@ func read(L *lua.LState) int {
 	return 3
 }
 
-func writeString(L *lua.LState) int {
+func writeText(L *lua.LState) int {
 	wsConn := checkWebsocketConn(L)
 	msg := L.CheckString(2)
 	err := wsConn.WriteMessage(websocket.TextMessage, []byte(msg))
