@@ -12,20 +12,27 @@ go get github.com/Root-lee/gluawebsocket
 ### Loading Modules
 
 ```go
+package main
+
 import (
 	"github.com/Root-lee/gluawebsocket"
+	lua "github.com/yuin/gopher-lua"
 )
 
-// Bring up a GopherLua VM
-L := lua.NewState()
-defer L.Close()
+func main() {
+	L := lua.NewState()
+	gluawebsocket.Preload(L)
+	defer L.Close()
 
-// Preload websocket modules
-gluawebsocket.Preload(L)
+	if err := L.DoFile("test.lua"); err != nil {
+		panic(err)
+	}
+}
 ```
 
-### Usage In lua <a name="lua-demo-anchor"></a>
+### Using In lua <a name="lua-demo-anchor"></a>
 
+test.lua
 ```lua
 local ws = require("websocket")
 
@@ -77,26 +84,6 @@ ok  	gluawebsocket	0.389s
 ### Manual Test
 You can use this [Websocket Echo Server](https://github.com/gorilla/websocket/tree/release-1.5/examples/echo) to start a websocket server
 
-Then you can use this demo to test your lua file
-
-```go
-package main
-
-import (
-	"github.com/Root-lee/gluawebsocket"
-	lua "github.com/yuin/gopher-lua"
-)
-
-func main() {
-	L := lua.NewState()
-	gluawebsocket.Preload(L)
-	defer L.Close()
-
-	if err := L.DoFile("test.lua"); err != nil {
-		panic(err)
-	}
-}
-```
 You can refer to this [lua script](#lua-demo-anchor) to write your own lua script
 
 ## License
