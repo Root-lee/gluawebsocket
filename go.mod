@@ -1,4 +1,4 @@
-module gluawebsocket
+module github.com/Root-lee/gluawebsocket
 
 go 1.20
 
